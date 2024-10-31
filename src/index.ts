@@ -10,7 +10,7 @@ try {
       [{ data: 'Time'}, { data: time}],
       [{ data: 'Payload' }, { data: payload}],
     ]
-    await summary.addTable(tableData);
+    await summary.addTable(tableData).write();
   };
 
   (async () => {

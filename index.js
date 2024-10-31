@@ -23911,7 +23911,7 @@ try {
       [{ data: "Time" }, { data: time }],
       [{ data: "Payload" }, { data: payload }]
     ];
-    await import_core.summary.addTable(tableData);
+    await import_core.summary.addTable(tableData).write();
   };
   (async () => {
     const nameToGreet = (0, import_core.getInput)("who-to-greet");
