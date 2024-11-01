@@ -72,6 +72,7 @@ try {
     let gitHubDeployment: Awaited<ReturnType<typeof createGitHubDeployment>>;
 
     if (gitHubToken) {
+      console.log('Creating GitHub deployment');
       const octokit = getOctokit(gitHubToken);
       gitHubDeployment = await createGitHubDeployment(octokit, isProduction, appName);
     }
@@ -83,6 +84,7 @@ try {
     await createJobSummary(appName, payload);
 
     if (gitHubDeployment) {
+      console.log('Creating GitHub deployment status');
       const octokit = getOctokit(gitHubToken);
       await createGitHubDeploymentStatus({
       id: gitHubDeployment.id,

@@ -15,9 +15,9 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: zephyr
         with:
-          application_uid: 'team-red.zephyr-mono.zephyrcloudio'
+          application_uid: team-red.zephyr-mono.zephyrcloudio
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          environment: 'development'
+          environment: development
       # Use the output from the `zephyr` step
       - name: Get the output version URL
         run: echo "The preview URL - ${{ steps.zephyr.outputs.time }}"
