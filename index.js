@@ -23930,8 +23930,6 @@ try {
   };
   const createGitHubDeploymentStatus = async ({
     id,
-    url,
-    versionUrl,
     environmentName,
     productionEnvironment,
     octokit
@@ -23941,9 +23939,7 @@ try {
       repo: import_github.context.repo.repo,
       deployment_id: id,
       environment: environmentName,
-      environment_url: url,
       production_environment: productionEnvironment,
-      target_url: versionUrl,
       description: "Zephyr Deployment",
       state: "success",
       auto_inactive: false
@@ -23974,8 +23970,6 @@ try {
       const octokit = (0, import_github.getOctokit)(gitHubToken);
       await createGitHubDeploymentStatus({
         id: gitHubDeployment.id,
-        url: version_url,
-        versionUrl: version_url,
         environmentName: environment,
         productionEnvironment: isProduction,
         octokit
