@@ -68,6 +68,9 @@ try {
     const environment = getInput('environment') ?? 'preview';
     const application_uid_parts = application_uid.split('.');
     const appName = application_uid_parts[0];
+
+    console.log(`Deploying ${appName} to ${environment} environment`);
+    console.log('application_uid:', application_uid);
     
     let gitHubDeployment: Awaited<ReturnType<typeof createGitHubDeployment>>;
 
