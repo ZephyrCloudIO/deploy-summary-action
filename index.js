@@ -23902,25 +23902,85 @@ var require_github = __commonJS({
 var import_core = __toESM(require_core());
 var import_github = __toESM(require_github());
 try {
-  const createJobSummary = async (nameToGreet, time, payload) => {
-    await import_core.summary.addRaw(`Hello ${nameToGreet}!`);
+  const createJobSummary = async (appName, version_url) => {
+    await import_core.summary.addRaw(`Deployed ${appName}!`);
     await import_core.summary.addEOL();
     ;
     const tableData = [
-      [{ data: "Name to Great" }, { data: nameToGreet }],
-      [{ data: "Time" }, { data: time }],
-      [{ data: "Payload" }, { data: payload }]
+      [{ data: "App Name" }, { data: appName }],
+      [{ data: "Version URL" }, { data: version_url }]
     ];
     await import_core.summary.addTable(tableData).write();
   };
+  const createGitHubDeployment = async (octokit, isProductionEnvironment, environment) => {
+    const githubBranch = process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF_NAME;
+    const deployment = await octokit.rest.repos.createDeployment({
+      owner: import_github.context.repo.owner,
+      repo: import_github.context.repo.repo,
+      ref: githubBranch || import_github.context.ref,
+      auto_merge: false,
+      description: "Zephyr Deployment",
+      required_contexts: [],
+      environment,
+      production_environment: isProductionEnvironment
+    });
+    if (deployment.status === 201) {
+      return deployment.data;
+    }
+  };
+  const createGitHubDeploymentStatus = async ({
+    id,
+    url,
+    versionUrl,
+    environmentName,
+    productionEnvironment,
+    octokit
+  }) => {
+    await octokit.rest.repos.createDeploymentStatus({
+      owner: import_github.context.repo.owner,
+      repo: import_github.context.repo.repo,
+      deployment_id: id,
+      environment: environmentName,
+      environment_url: url,
+      production_environment: productionEnvironment,
+      target_url: versionUrl,
+      description: "Zephyr Deployment",
+      state: "success",
+      auto_inactive: false
+    });
+  };
   (async () => {
-    const nameToGreet = (0, import_core.getInput)("who-to-greet");
-    console.log(`Hello ${nameToGreet}!`);
-    const time = (/* @__PURE__ */ new Date()).toTimeString();
-    (0, import_core.setOutput)("time", time);
+    const application_uid = (0, import_core.getInput)("application_uid");
+    const isProduction = (0, import_core.getInput)("is_production") === "true";
+    const gitHubToken = (0, import_core.getInput)("github_token");
+    const environment = (0, import_core.getInput)("environment") ?? "preview";
+    const application_uid_parts = application_uid.split(".");
+    const appName = application_uid_parts[0];
+    const version_url = "https://example.com";
+    console.log(`Deploying ${appName} to ${environment} environment`);
+    console.log("application_uid:", application_uid);
+    let gitHubDeployment;
+    if (gitHubToken) {
+      console.log("Creating GitHub deployment");
+      const octokit = (0, import_github.getOctokit)(gitHubToken);
+      gitHubDeployment = await createGitHubDeployment(octokit, isProduction, appName);
+    }
+    (0, import_core.setOutput)("version_url", version_url);
     const payload = JSON.stringify(import_github.context.payload, void 0, 2);
     console.log(`The event payload: ${payload}`);
-    await createJobSummary(nameToGreet, time, payload);
+    await createJobSummary(appName, version_url);
+    if (gitHubDeployment) {
+      console.log("Creating GitHub deployment status");
+      const octokit = (0, import_github.getOctokit)(gitHubToken);
+      await createGitHubDeploymentStatus({
+        id: gitHubDeployment.id,
+        url: version_url,
+        versionUrl: version_url,
+        environmentName: environment,
+        productionEnvironment: isProduction,
+        octokit
+      });
+    }
   })();
 } catch (error) {
   (0, import_core.setFailed)(error.message);

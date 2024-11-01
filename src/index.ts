@@ -4,12 +4,12 @@ import { context, getOctokit } from '@actions/github';
 type Octokit = ReturnType<typeof getOctokit>;
 
 try {
-  const createJobSummary = async (appName: string, payload: string) => {
+  const createJobSummary = async (appName: string, version_url: string) => {
     await summary.addRaw(`Deployed ${appName}!`);
     await summary.addEOL();;
     const tableData = [
       [{ data: 'App Name'}, { data: appName}],
-      [{ data: 'Payload' }, { data: payload}],
+      [{ data: 'Version URL' }, { data: version_url}],
     ]
     await summary.addTable(tableData).write();
   };
@@ -68,6 +68,7 @@ try {
     const environment = getInput('environment') ?? 'preview';
     const application_uid_parts = application_uid.split('.');
     const appName = application_uid_parts[0];
+    const version_url = 'https://example.com';
 
     console.log(`Deploying ${appName} to ${environment} environment`);
     console.log('application_uid:', application_uid);
@@ -80,19 +81,19 @@ try {
       gitHubDeployment = await createGitHubDeployment(octokit, isProduction, appName);
     }
 
-    setOutput('version_url', 'https://example.com');
+    setOutput('version_url', version_url);
     const payload = JSON.stringify(context.payload, undefined, 2)
     console.log(`The event payload: ${payload}`);
 
-    await createJobSummary(appName, payload);
+    await createJobSummary(appName, version_url);
 
     if (gitHubDeployment) {
       console.log('Creating GitHub deployment status');
       const octokit = getOctokit(gitHubToken);
       await createGitHubDeploymentStatus({
       id: gitHubDeployment.id,
-      url: 'https://example.com',
-      versionUrl: 'https://example.com',
+      url: version_url,
+      versionUrl: version_url,
       environmentName: environment,
       productionEnvironment: isProduction,
       octokit,
