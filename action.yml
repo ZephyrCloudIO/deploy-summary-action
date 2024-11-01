@@ -1,13 +1,23 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Zephyr deploy summary'
+description: 'Create summary of Zephyr deployment'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  github_token:
+    description: 'GitHub token'
     required: true
-    default: 'World'
+  application_uid:
+    description: 'Application UID'
+    required: false
+  is_production:
+    description: 'Is production deployment'
+    required: false
+    default: 'false'
+  environment:
+    description: 'Environment'
+    required: false
+    default: 'preview'
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  version_url:
+    description: 'URL of deployed version'
 runs:
   using: 'node20'
   main: 'index.js'

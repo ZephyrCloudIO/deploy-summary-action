@@ -1,9 +1,9 @@
 on: [push]
 
 jobs:
-  hello_world_job:
+  zephyr_summary:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Zephyr deploy summary
     steps:
       # To use this repository's private action,
       # you must check out the repository
@@ -11,11 +11,13 @@ jobs:
         uses: actions/checkout@v4
       - name: NPM install
         run: npm ci
-      - name: Hello world action step
+      - name: Zephyr deploy summary
         uses: ./ # Uses an action in the root directory
-        id: hello
+        id: zephyr
         with:
-          who-to-greet: 'Mona the Octocat'
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+          application_uid: 'team-red.zephyr-mono.zephyrcloudio'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          environment: 'development'
+      # Use the output from the `zephyr` step
+      - name: Get the output version URL
+        run: echo "The preview URL - ${{ steps.zephyr.outputs.time }}"
