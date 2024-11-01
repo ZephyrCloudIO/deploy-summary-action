@@ -23954,27 +23954,10 @@ try {
     const appName = application_uid_parts[0];
     const version_url = "https://example.com";
     console.log(`Deploying ${appName} to ${environment} environment`);
-    console.log("application_uid:", application_uid);
-    let gitHubDeployment;
-    if (gitHubToken) {
-      console.log("Creating GitHub deployment");
-      const octokit = (0, import_github.getOctokit)(gitHubToken);
-      gitHubDeployment = await createGitHubDeployment(octokit, isProduction, appName);
-    }
     (0, import_core.setOutput)("version_url", version_url);
     const payload = JSON.stringify(import_github.context.payload, void 0, 2);
     console.log(`The event payload: ${payload}`);
     await createJobSummary(appName, version_url);
-    if (gitHubDeployment) {
-      console.log("Creating GitHub deployment status");
-      const octokit = (0, import_github.getOctokit)(gitHubToken);
-      await createGitHubDeploymentStatus({
-        id: gitHubDeployment.id,
-        environmentName: environment,
-        productionEnvironment: isProduction,
-        octokit
-      });
-    }
   })();
 } catch (error) {
   (0, import_core.setFailed)(error.message);

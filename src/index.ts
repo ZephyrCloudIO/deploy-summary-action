@@ -65,15 +65,14 @@ try {
     const version_url = 'https://example.com';
 
     console.log(`Deploying ${appName} to ${environment} environment`);
-    console.log('application_uid:', application_uid);
     
-    let gitHubDeployment: Awaited<ReturnType<typeof createGitHubDeployment>>;
+    // let gitHubDeployment: Awaited<ReturnType<typeof createGitHubDeployment>>;
 
-    if (gitHubToken) {
-      console.log('Creating GitHub deployment');
-      const octokit = getOctokit(gitHubToken);
-      gitHubDeployment = await createGitHubDeployment(octokit, isProduction, appName);
-    }
+    // if (gitHubToken) {
+    //   console.log('Creating GitHub deployment');
+    //   const octokit = getOctokit(gitHubToken);
+    //   gitHubDeployment = await createGitHubDeployment(octokit, isProduction, appName);
+    // }
 
     setOutput('version_url', version_url);
     const payload = JSON.stringify(context.payload, undefined, 2)
@@ -81,16 +80,16 @@ try {
 
     await createJobSummary(appName, version_url);
 
-    if (gitHubDeployment) {
-      console.log('Creating GitHub deployment status');
-      const octokit = getOctokit(gitHubToken);
-      await createGitHubDeploymentStatus({
-      id: gitHubDeployment.id,
-      environmentName: environment,
-      productionEnvironment: isProduction,
-      octokit,
-    });
-    }
+    // if (gitHubDeployment) {
+    //   console.log('Creating GitHub deployment status');
+    //   const octokit = getOctokit(gitHubToken);
+    //   await createGitHubDeploymentStatus({
+    //     id: gitHubDeployment.id,
+    //     environmentName: environment,
+    //     productionEnvironment: isProduction,
+    //     octokit,
+    //   });
+    // }
   })();
 } catch (error) {
   setFailed(error.message);
