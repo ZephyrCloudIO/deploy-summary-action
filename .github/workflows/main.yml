@@ -1,6 +1,30 @@
 on: [push]
 
 jobs:
+  build_app:
+    runs-on: ubuntu-latest
+    environment: development
+    name: Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: NPM install
+        run: npm ci
+      - name: Build App
+        env:
+          ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }}
+          ZE_API: ${{ env.ZE_API }}
+          ZE_API_GATE: ${{ env.ZE_API_GATE }}
+        run: |
+          cd zephyr-examples/create-default-webpack-mf
+          npm ci
+          npm run build
+      - name: Debug
+        run: |
+          echo "ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }}"
+          echo "ZE_API: ${{ env.ZE_API }}"
+          echo "ZE_API_GATE: ${{ env.ZE_API_GATE }}"
+
   zephyr_summary:
     runs-on: ubuntu-latest
     name: Zephyr deploy summary

@@ -1,70 +1,21 @@
-import { getInput, setOutput, setFailed, summary } from '@actions/core';
-import { context, getOctokit } from '@actions/github';
+import { getInput, setOutput, setFailed } from '@actions/core';
+import { context } from '@actions/github';
+import { createJobSummary } from './create-job-summary';
+import { getDeployVersionUrl } from './get-deploy-version-url';
 
-type Octokit = ReturnType<typeof getOctokit>;
-
-try {
-  const createJobSummary = async (appName: string, version_url: string) => {
-    await summary.addRaw(`Deployed ${appName}!`);
-    await summary.addEOL();;
-    const tableData = [
-      [{ data: 'App Name'}, { data: appName}],
-      [{ data: 'Version URL' }, { data: version_url}],
-    ]
-    await summary.addTable(tableData).write();
-  };
-
-	const createGitHubDeployment = async (octokit: Octokit, isProductionEnvironment: boolean, environment: string) => {
-    const githubBranch = process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF_NAME;
-    const deployment = await octokit.rest.repos.createDeployment({
-			owner: context.repo.owner,
-			repo: context.repo.repo,
-			ref: githubBranch || context.ref,
-			auto_merge: false,
-			description: 'Zephyr Deployment',
-			required_contexts: [],
-			environment,
-			production_environment: isProductionEnvironment,
-		});
-
-		if (deployment.status === 201) {
-			return deployment.data;
-		}
-	};
-
-  const createGitHubDeploymentStatus = async ({
-		id,
-		environmentName,
-		productionEnvironment,
-		octokit,
-	}: {
-		octokit: Octokit;
-		id: number;
-		environmentName: string;
-		productionEnvironment: boolean;
-	}) => {
-		await octokit.rest.repos.createDeploymentStatus({
-			owner: context.repo.owner,
-			repo: context.repo.repo,
-			deployment_id: id,
-			environment: environmentName,
-			production_environment: productionEnvironment,
-			description: 'Zephyr Deployment',
-			state: 'success',
-			auto_inactive: false,
-		});
-	};
-
-  (async () => {
+(async () => {
+  try {
     const application_uid = getInput('application_uid');
-    const isProduction = getInput('is_production') === 'true';
-    const gitHubToken = getInput('github_token');
-    const environment = getInput('environment') ?? 'preview';
-    const application_uid_parts = application_uid.split('.');
-    const appName = application_uid_parts[0];
-    const version_url = 'https://example.com';
+    // const isProduction = getInput('is_production') === 'true';
+    // const gitHubToken = getInput('github_token');
+    // const environment = getInput('environment') ?? 'preview';
+    const [appName, repoName, orgName] = application_uid.split('.');
+    const version_url = await getDeployVersionUrl(application_uid);
 
-    console.log(`Deploying ${appName} to ${environment} environment`);
+    if (!version_url) {
+      setFailed('No version URL found');
+      return;
+    }
     
     // let gitHubDeployment: Awaited<ReturnType<typeof createGitHubDeployment>>;
 
@@ -78,7 +29,7 @@ try {
     const payload = JSON.stringify(context.payload, undefined, 2)
     console.log(`The event payload: ${payload}`);
 
-    await createJobSummary(appName, version_url);
+    await createJobSummary({appName, repoName, orgName, version_url});
 
     // if (gitHubDeployment) {
     //   console.log('Creating GitHub deployment status');
@@ -90,7 +41,7 @@ try {
     //     octokit,
     //   });
     // }
-  })();
-} catch (error) {
-  setFailed(error.message);
-}
+  } catch (error) {
+    setFailed(error.message);
+  }
+})();
