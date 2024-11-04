@@ -22,8 +22,8 @@ jobs:
       - name: Debug
         run: |
           echo "ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }}"
-          echo "ZE_API: ${{ env.ZE_API }}"
-          echo "ZE_API_GATE: ${{ env.ZE_API_GATE }}"
+          echo "ZE_API: ${{ vars.ZE_API }}"
+          echo "ZE_API_GATE: ${{ vars.ZE_API_GATE }}"
 
   zephyr_summary:
     runs-on: ubuntu-latest
