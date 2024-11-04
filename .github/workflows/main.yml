@@ -13,15 +13,14 @@ jobs:
       - name: Build App
         env:
           ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }}
-          ZE_API: ${{ env.ZE_API }}
-          ZE_API_GATE: ${{ env.ZE_API_GATE }}
+          ZE_API: ${{ vars.ZE_API }}
+          ZE_API_GATE: ${{ vars.ZE_API_GATE }}
         run: |
           cd zephyr-examples/create-default-webpack-mf
           npm ci
           npm run build
       - name: Debug
         run: |
-          echo "ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }}"
           echo "ZE_API: ${{ vars.ZE_API }}"
           echo "ZE_API_GATE: ${{ vars.ZE_API_GATE }}"
 
@@ -39,7 +38,7 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: zephyr
         with:
-          application_uid: team-red.zephyr-mono.zephyrcloudio
+          application_uid: default_webpack_mf_first.zephyr-ci.opavlovskyi
           github_token: ${{ secrets.GITHUB_TOKEN }}
           environment: development
       # Use the output from the `zephyr` step
