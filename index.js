@@ -27180,7 +27180,7 @@ var getDeployVersionUrl = async (application_uid) => {
     const [appName, repoName, orgName] = application_uid.split(".");
     const version_url = await getDeployVersionUrl(application_uid);
     if (!version_url) {
-      (0, import_core2.setFailed)("No version URL found");
+      console.log("No version URL found");
       return;
     }
     (0, import_core2.setOutput)("version_url", version_url);

@@ -10,7 +10,7 @@ import { getDeployVersionUrl } from './get-deploy-version-url';
     const version_url = await getDeployVersionUrl(application_uid);
 
     if (!version_url) {
-      setFailed('No version URL found');
+      console.log('No version URL found');
       return;
     }
 

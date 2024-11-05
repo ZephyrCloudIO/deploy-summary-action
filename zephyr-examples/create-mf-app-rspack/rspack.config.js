@@ -6,6 +6,7 @@ const isDev = process.env.NODE_ENV === 'development'
  * @type {import('@rspack/cli').Configuration}
  */
 module.exports = withZephyr()({
+  cache: false,
   context: __dirname,
   entry: {
     main: './src/index.ts',
