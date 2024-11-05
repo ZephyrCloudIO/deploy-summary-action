@@ -24,6 +24,4 @@ jobs:
         id: zephyr
         with:
           application_uid: create-mf-app-rspack-host.zephyr-ci.opavlovskyi
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          environment: development
 

@@ -27161,7 +27161,7 @@ var createJobSummary = async ({ appName, repoName, orgName, version_url }) => {
     [{ data: "Application" }, { data: appName }],
     [{ data: "Project" }, { data: repoName }],
     [{ data: "Organization" }, { data: orgName }],
-    [{ data: "Version URL" }, { data: `<a href=${version_url} target=_blank>${version_url}</a>` }]
+    [{ data: "Version URL" }, { data: `<a href=${version_url} target="_blank">${version_url}</a>` }]
   ];
   await import_core.summary.addTable(tableData).write();
 };
