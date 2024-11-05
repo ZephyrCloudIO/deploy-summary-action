@@ -27,7 +27,7 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: zephyr
         with:
-          application_uid: default_webpack_mf_first.zephyr-ci.opavlovskyi
+          application_uid: create-mf-app-rspack.zephyr-ci.opavlovskyi
           github_token: ${{ secrets.GITHUB_TOKEN }}
           environment: development
       # Use the output from the `zephyr` step
@@ -49,7 +49,7 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: zephyr
         with:
-          application_uid: default_webpack_mf_first.zephyr-ci.opavlovskyi
+          application_uid: create-mf-app-rspack.zephyr-ci.opavlovskyi
           github_token: ${{ secrets.GITHUB_TOKEN }}
           environment: development
       # Use the output from the `zephyr` step
