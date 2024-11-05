@@ -14,7 +14,7 @@ import { showZephyrCache } from './show-zephyr-cache';
     const version_url = await getDeployVersionUrl(application_uid);
 
     if (!version_url) {
-      setFailed('No version URL found');
+      //setFailed('No version URL found');
       showZephyrCache();
       return;
     }

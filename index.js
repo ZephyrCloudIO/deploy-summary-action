@@ -27193,7 +27193,6 @@ var showZephyrCache = async () => {
     const [appName, repoName, orgName] = application_uid.split(".");
     const version_url = await getDeployVersionUrl(application_uid);
     if (!version_url) {
-      (0, import_core2.setFailed)("No version URL found");
       showZephyrCache();
       return;
     }
