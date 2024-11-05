@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npx esbuild src/index.ts --bundle --platform=node --target=es2021 --outfile=index.js",
-    "build:example": "cd zephyr-examples/create-default-webpack-mf && npm ci && npm run build",
+    "build:example": "cd zephyr-examples/create-mf-app-rspack && npm ci && npm run build",
     "build:show-result": "npx esbuild tests/show-deploy-result.ts --target=es2021 --platform=node --bundle --outfile=tests/show-deploy-result.js",
     "show:result": "node tests/show-deploy-result.js",
     "test": "npm run build:example && npm run build:show-result && npm run show:result",

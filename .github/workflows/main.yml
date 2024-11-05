@@ -16,7 +16,7 @@ jobs:
           ZE_API: ${{ vars.ZE_API }}
           ZE_API_GATE: ${{ vars.ZE_API_GATE }}
         run: |
-          cd zephyr-examples/create-default-webpack-mf
+          cd zephyr-examples/create-mf-app-rspack
           npm ci
           npm run build
       - name: Debug
@@ -25,6 +25,7 @@ jobs:
           echo "ZE_API_GATE: ${{ vars.ZE_API_GATE }}"
 
   zephyr_summary:
+    needs: build_app
     runs-on: ubuntu-latest
     name: Zephyr deploy summary
     steps:
