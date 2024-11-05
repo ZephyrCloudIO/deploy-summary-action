@@ -19,12 +19,6 @@ jobs:
           cd zephyr-examples/create-mf-app-rspack
           npm ci
           npm run build
-          echo Zephyr cache dir:
-          ls ~/.zephyr
-      - name: Debug
-        run: |
-          echo "ZE_API: ${{ vars.ZE_API }}"
-          echo "ZE_API_GATE: ${{ vars.ZE_API_GATE }}"
       - name: Zephyr deploy summary
         uses: ./ # Uses an action in the root directory
         id: zephyr
@@ -32,28 +26,4 @@ jobs:
           application_uid: create-mf-app-rspack-host.zephyr-ci.opavlovskyi
           github_token: ${{ secrets.GITHUB_TOKEN }}
           environment: development
-      # Use the output from the `zephyr` step
-      - name: Get the output version URL
-        run: echo "The preview URL - ${{ steps.zephyr.outputs.time }}"
 
-  zephyr_summary:
-    needs: build_app
-    runs-on: ubuntu-latest
-    name: Zephyr deploy summary
-    steps:
-      # To use this repository's private action,
-      # you must check out the repository
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: NPM install
-        run: npm ci
-      - name: Zephyr deploy summary
-        uses: ./ # Uses an action in the root directory
-        id: zephyr
-        with:
-          application_uid: create-mf-app-rspack-host.zephyr-ci.opavlovskyi
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          environment: development
-      # Use the output from the `zephyr` step
-      - name: Get the output version URL
-        run: echo "The preview URL - ${{ steps.zephyr.outputs.time }}"
