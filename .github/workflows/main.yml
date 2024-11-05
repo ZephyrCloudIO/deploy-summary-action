@@ -20,7 +20,7 @@ jobs:
           npm ci
           npm run build
           echo Zephyr cache dir:
-          ~/.zephyr
+          ls ~/.zephyr
       - name: Debug
         run: |
           echo "ZE_API: ${{ vars.ZE_API }}"
