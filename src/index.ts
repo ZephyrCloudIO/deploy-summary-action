@@ -2,7 +2,7 @@ import { getInput, setOutput, setFailed } from '@actions/core';
 import { context } from '@actions/github';
 import { createJobSummary } from './create-job-summary';
 import { getDeployVersionUrl } from './get-deploy-version-url';
-import { showZephyrCache } from './src/show-zephyr-cache';
+import { showZephyrCache } from './show-zephyr-cache';
 
 (async () => {
   try {
