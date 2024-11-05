@@ -10,7 +10,9 @@
     "show:result": "node tests/show-deploy-result.js",
     "test": "npm run build:example && npm run build:show-result && npm run show:result",
     "prettier": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build:show-zephyr-cache": "npx esbuild tests/show-zephyr-cache.ts --target=es2021 --platform=node --bundle --outfile=tests/show-zephyr-cache.js",
+    "show:show-zephyr-cache": "node tests/show-zephyr-cache.js"
   },
   "keywords": [],
   "author": "",

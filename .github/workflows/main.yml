@@ -19,6 +19,8 @@ jobs:
           cd zephyr-examples/create-mf-app-rspack
           npm ci
           npm run build
+          echo Zephyr cache dir:
+          ~/.zephyr
       - name: Debug
         run: |
           echo "ZE_API: ${{ vars.ZE_API }}"

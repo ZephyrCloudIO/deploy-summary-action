@@ -2,6 +2,7 @@ import { getInput, setOutput, setFailed } from '@actions/core';
 import { context } from '@actions/github';
 import { createJobSummary } from './create-job-summary';
 import { getDeployVersionUrl } from './get-deploy-version-url';
+import { showZephyrCache } from './src/show-zephyr-cache';
 
 (async () => {
   try {
@@ -14,6 +15,7 @@ import { getDeployVersionUrl } from './get-deploy-version-url';
 
     if (!version_url) {
       setFailed('No version URL found');
+      showZephyrCache();
       return;
     }
     
@@ -45,3 +47,8 @@ import { getDeployVersionUrl } from './get-deploy-version-url';
     setFailed(error.message);
   }
 })();
+
+function lsZephyrCache() {
+  console.log('Zephyr cache:');
+  
+}
