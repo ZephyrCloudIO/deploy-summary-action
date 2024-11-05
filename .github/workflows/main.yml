@@ -23,6 +23,16 @@ jobs:
         run: |
           echo "ZE_API: ${{ vars.ZE_API }}"
           echo "ZE_API_GATE: ${{ vars.ZE_API_GATE }}"
+      - name: Zephyr deploy summary
+        uses: ./ # Uses an action in the root directory
+        id: zephyr
+        with:
+          application_uid: default_webpack_mf_first.zephyr-ci.opavlovskyi
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          environment: development
+      # Use the output from the `zephyr` step
+      - name: Get the output version URL
+        run: echo "The preview URL - ${{ steps.zephyr.outputs.time }}"
 
   zephyr_summary:
     needs: build_app
