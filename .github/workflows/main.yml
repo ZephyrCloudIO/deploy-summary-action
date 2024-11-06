@@ -26,7 +26,7 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: zephyr-summary
         with:
-          application_uid: create-mf-app-rspack-host.zephyr-ci.opavlovskyi
+          application_uid: create-mf-app-rspack-host.deploy-summary-action.zephyrcloudio
       - name: Print zephyr deploy summary
         run: echo "Deployed to ${{ steps.zephyr-summary.outputs.version_url }}"
 
