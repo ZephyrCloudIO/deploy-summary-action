@@ -1,6 +1,12 @@
 on: [push]
 
 jobs:
+  print_pr_number:
+    runs-on: ubuntu-latest
+    name: Print PR number
+    steps:
+      - name: Print PR number
+        run: echo "PR number is ${{ github.event.pull_request.number }}"
   build_app:
     runs-on: ubuntu-latest
     environment: development
