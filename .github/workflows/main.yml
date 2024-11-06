@@ -27,6 +27,6 @@ jobs:
         id: zephyr-summary
         with:
           application_uid: create-mf-app-rspack-host.zephyr-ci.opavlovskyi
-      - name: Zephyr deploy summary
+      - name: Print zephyr deploy summary
         run: echo "Deployed to ${{ steps.zephyr-summary.outputs.url }}"
 

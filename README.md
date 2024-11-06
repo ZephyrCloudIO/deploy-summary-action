@@ -49,6 +49,6 @@ jobs:
 
 # Outputs
 
-| Name          | Description                                   |
-| ------------- | --------------------------------------------- |
-| `version_url` | The link where snapshot of build is deployed. |
+| Name          | Description                                                  |
+| ------------- | ------------------------------------------------------------ |
+| `version_url` | The link where snapshot of build is deployed.                |
