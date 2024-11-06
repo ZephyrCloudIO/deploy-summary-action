@@ -5,10 +5,11 @@ import './index.css'
 
 const App = () => (
   <div className="container">
-    <div>Name: create-mf-app-rspack with zephyr v1.1.1</div>
+    <div>Name: create-mf-app-rspack with zephyr</div>
     <div>Framework: react</div>
     <div>Language: TypeScript</div>
     <div>CSS: Empty CSS</div>
+    <div>Version: v1.1.1</div>
   </div>
 )
 const rootElement = document.getElementById('app')
