@@ -27154,17 +27154,25 @@ var import_github = __toESM(require_github());
 
 // src/create-job-summary.ts
 var import_core = __toESM(require_core());
-var createJobSummary = async ({ appName, repoName, orgName, version_url }) => {
+var createJobSummary = async ({ appName, repoName, orgName, version_url, context: context2 }) => {
   await import_core.summary.addRaw(`Deployed ${appName}!`);
   await import_core.summary.addEOL();
+  const lastCommit = getLastCommit(context2);
   const tableData = [
     [{ data: "Application" }, { data: appName }],
     [{ data: "Project" }, { data: repoName }],
     [{ data: "Organization" }, { data: orgName }],
+    [{ data: "Last commit" }, { data: lastCommit.id }],
+    [{ data: "Last commit message" }, { data: lastCommit.message }],
+    [{ data: "Last commit author" }, { data: `@${lastCommit.author.username}` }],
     [{ data: "Version URL" }, { data: `<a class="external" href=${version_url} target="_blank">${version_url}</a>` }]
   ];
   await import_core.summary.addTable(tableData).write();
 };
+function getLastCommit(context2) {
+  const payload = context2.payload;
+  return payload.head_commit;
+}
 
 // src/get-deploy-version-url.ts
 var import_zephyr_edge_contract = __toESM(require_dist());
@@ -27184,9 +27192,9 @@ var getDeployVersionUrl = async (application_uid) => {
       return;
     }
     (0, import_core2.setOutput)("version_url", version_url);
-    const payload = JSON.stringify(import_github.context.payload, void 0, 2);
-    console.log(`The event payload: ${payload}`);
-    await createJobSummary({ appName, repoName, orgName, version_url });
+    const payloadStr = JSON.stringify(import_github.context.payload, void 0, 2);
+    console.log(`The event payload: ${payloadStr}`);
+    await createJobSummary({ appName, repoName, orgName, version_url, context: import_github.context });
   } catch (error) {
     (0, import_core2.setFailed)(error.message);
   }
