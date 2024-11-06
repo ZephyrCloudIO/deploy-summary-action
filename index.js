@@ -27192,8 +27192,6 @@ var getDeployVersionUrl = async (application_uid) => {
       return;
     }
     (0, import_core2.setOutput)("version_url", version_url);
-    const payloadStr = JSON.stringify(import_github.context.payload, void 0, 2);
-    console.log(`The event payload: ${payloadStr}`);
     await createJobSummary({ appName, repoName, orgName, version_url, context: import_github.context });
   } catch (error) {
     (0, import_core2.setFailed)(error.message);

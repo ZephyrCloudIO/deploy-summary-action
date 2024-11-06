@@ -1,20 +1,9 @@
 name: 'Zephyr deploy summary'
 description: 'Create summary of Zephyr deployment'
 inputs:
-  github_token:
-    description: 'GitHub token'
-    required: true
   application_uid:
     description: 'Application UID'
-    required: false
-  is_production:
-    description: 'Is production deployment'
-    required: false
-    default: 'false'
-  environment:
-    description: 'Environment'
-    required: false
-    default: 'preview'
+    required: true
 outputs:
   version_url:
     description: 'URL of deployed version'

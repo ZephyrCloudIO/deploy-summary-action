@@ -15,8 +15,6 @@ import { getDeployVersionUrl } from './get-deploy-version-url';
     }
 
     setOutput('version_url', version_url);
-    const payloadStr = JSON.stringify(context.payload, undefined, 2)
-    console.log(`The event payload: ${payloadStr}`);
 
     await createJobSummary({appName, repoName, orgName, version_url, context});
 
