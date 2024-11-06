@@ -1,4 +1,7 @@
-on: [push]
+on: 
+  push:
+    branches:
+      - main
 
 jobs:
   print_pr_number:
@@ -14,6 +17,44 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: echo "PR ${{ steps.pr.outputs.pull_request_number }}"
+
+      - uses: actions/github-script@v6
+        id: get_issue_number
+        with:
+          script: |
+            if (context.issue.number) {
+              // Return issue number if present
+              return context.issue.number;
+            } else {
+              // Otherwise return issue number from commit
+              return (
+                await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                  commit_sha: context.sha,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                })
+              ).data[0].number;
+            }
+          result-encoding: string
+      - name: Issue number
+        run: echo 'PR NUM ${{steps.get_issue_number.outputs.result}}'
+
+      - uses: actions/github-script@v6
+        id: get_pr_data
+        with:
+          script: |
+              return (
+                await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                  commit_sha: context.sha,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                })
+              ).data[0];
+      - name: Pull Request data
+        run: |
+          echo 'NUMBER ${{ fromJson(steps.get_pr_data.outputs.result).number }}'
+          echo 'TITLE ${{ fromJson(steps.get_pr_data.outputs.result).title }}'
+  
   build_app:
     runs-on: ubuntu-latest
     environment: development
