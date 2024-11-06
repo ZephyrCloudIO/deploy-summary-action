@@ -13,13 +13,14 @@ export const createJobSummary = async ({appName, repoName, orgName, version_url,
   await summary.addRaw(`Deployed ${appName}!`);
   await summary.addEOL();
   const lastCommit = getLastCommit(context);
+
   const tableData = [
     [{ data: 'Application'}, { data: appName}],
     [{ data: 'Project'}, { data: repoName}],
     [{ data: 'Organization'}, { data: orgName}],
-    [{ data: 'Last commit'}, { data: lastCommit.id}],
-    [{ data: 'Last commit message'}, { data: lastCommit.message}],
+    [{ data: 'Last commit'}, { data: `<a href="https://github.com/${orgName}/${repoName}/commit/${lastCommit.id}">${lastCommit.id}</a>`}],
     [{ data: 'Last commit author'}, { data: `@${lastCommit.author.username}` }],
+    [{ data: 'Last commit message'}, { data: lastCommit.message}],
     [{ data: 'Version URL' }, { data: `<a class="external" href=${version_url} target="_blank">${version_url}</a>` }],
   ]
   await summary.addTable(tableData).write();
