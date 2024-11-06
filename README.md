@@ -33,7 +33,7 @@ jobs:
           ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }} # Required Your User Auth Token
         run: "<build command here>"
       - name: Zephyr deploy summary
-        uses: zephyr/deploy-summary@v1
+        uses: ZephyrCloudIO/deploy-summary-action@v1
         id: zephyr-summary
         with:
           application_uid: <your_application_uid>
