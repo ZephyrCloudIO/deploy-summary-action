@@ -4,56 +4,38 @@ on:
       - main
 
 jobs:
-  print_pr_number:
+  pr_data:
     runs-on: ubuntu-latest
     name: Print PR number
+    outputs:
+      pr_number: ${{ steps.get_pr_data.outputs.pr_number }}
     steps:
-      - uses: actions/checkout@v2.3.4
-        with:
-          fetch-depth: 0
-      - name: Get Pull Request Number
-        id: pr
-        run: echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: echo "PR ${{ steps.pr.outputs.pull_request_number }}"
-
-      - uses: actions/github-script@v6
-        id: get_issue_number
-        with:
-          script: |
-            if (context.issue.number) {
-              // Return issue number if present
-              return context.issue.number;
-            } else {
-              // Otherwise return issue number from commit
-              return (
-                await github.rest.repos.listPullRequestsAssociatedWithCommit({
-                  commit_sha: context.sha,
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                })
-              ).data[0].number;
-            }
-          result-encoding: string
-      - name: Issue number
-        run: echo 'PR NUM ${{steps.get_issue_number.outputs.result}}'
-
       - uses: actions/github-script@v6
         id: get_pr_data
         with:
           script: |
-              return (
+              const pr_data = (
                 await github.rest.repos.listPullRequestsAssociatedWithCommit({
                   commit_sha: context.sha,
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                 })
               ).data[0];
+              core.setOutput('pr_number', pr_data.number);
+              return pr_data;
       - name: Pull Request data
         run: |
           echo 'NUMBER ${{ fromJson(steps.get_pr_data.outputs.result).number }}'
           echo 'TITLE ${{ fromJson(steps.get_pr_data.outputs.result).title }}'
+
+  print_pr_number:
+    runs-on: ubuntu-latest
+    needs: pr_data
+    name: Print PR number
+    steps:
+      - name: Print PR number
+        run: |
+          echo "PR: ${{ needs.pr_data.outputs.pr_number }}"
   
   build_app:
     runs-on: ubuntu-latest
