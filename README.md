@@ -38,7 +38,7 @@ jobs:
         with:
           application_uid: <your_application_uid>
       - name: Zephyr deploy summary
-        run: echo "Deployed to ${{ steps.zephyr.outputs.url }}"
+        run: echo "Deployed to ${{ steps.zephyr.outputs.version_url }}"
 ```
 
 # Inputs
