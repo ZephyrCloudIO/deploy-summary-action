@@ -6,7 +6,7 @@ jobs:
     name: Print PR number
     steps:
       - name: Print PR number
-        run: echo "PR number is ${{ github.event.pull_request.number }}"
+        run: echo "PR number is ${{ github.event.pull_request.number || github.event.number }}"
   build_app:
     runs-on: ubuntu-latest
     environment: development
