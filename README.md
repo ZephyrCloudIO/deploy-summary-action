@@ -1,23 +1,54 @@
-# Hello world javascript action
+# Zephyr deployment summary
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+This action creates job summary for build with `Zephyr plugin`.
 
 ## Inputs
 
-### `who-to-greet`
+### `application_uid`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Required** UID of application. pattern `{application}.{repository}.{organization}`.
 
 ## Outputs
 
-### `time`
+### `version_url`
 
-The time we greeted you.
+The link where snapshot of build is deployed.
 
-## Example usage
+## Usage
+
+To build app with `zephyr-plugin` you will need generate `User Auth Token` in Zephyr portal [here](https://app.zephyr-cloud.io/profile/settings/user-tokens/generate) and store it to GitHub action secrets.
 
 ```yaml
-uses: actions/hello-world-javascript-action@e76147da8e5c81eaf017dede5645551d4b94427b
-with:
-  who-to-greet: 'Mona the Octocat'
+jobs:
+  build_app:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: install dependencies
+        run: npm ci
+      - name: Build App
+        env:
+          ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }} # Required Your User Auth Token
+        run: "<build command here>"
+      - name: Zephyr deploy summary
+        uses: zephyr/deploy-summary@v1
+        id: zephyr-summary
+        with:
+          application_uid: <your_application_uid>
+      - name: Zephyr deploy summary
+        run: echo "Deployed to ${{ steps.zephyr.outputs.url }}"
 ```
+
+# Inputs
+
+| Name              | Required | Description                                   |
+| ----------------- | -------- | --------------------------------------------- |
+| `application_uid` |  true  | The link where snapshot of build is deployed.   |
+
+# Outputs
+
+| Name          | Description                                   |
+| ------------- | --------------------------------------------- |
+| `version_url` | The link where snapshot of build is deployed. |

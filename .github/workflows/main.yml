@@ -24,7 +24,9 @@ jobs:
           npm run build
       - name: Zephyr deploy summary
         uses: ./ # Uses an action in the root directory
-        id: zephyr
+        id: zephyr-summary
         with:
           application_uid: create-mf-app-rspack-host.zephyr-ci.opavlovskyi
+      - name: Zephyr deploy summary
+        run: echo "Deployed to ${{ steps.zephyr-summary.outputs.url }}"
 
