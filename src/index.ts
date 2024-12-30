@@ -19,6 +19,7 @@ import { getDeployVersionUrl } from './get-deploy-version-url';
     await createJobSummary({appName, repoName, orgName, version_url, context});
 
   } catch (error) {
+    console.error(error);
     setFailed(error.message);
   }
 })();
