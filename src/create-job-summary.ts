@@ -12,24 +12,15 @@ export interface CreateJobSummaryParams {
 export const createJobSummary = async ({appName, repoName, orgName, version_url, context}: CreateJobSummaryParams) => {
   await summary.addRaw(`Deployed ${appName}!`);
   await summary.addEOL();
-  const lastCommit = getLastCommit(context);
 
   const tableData = [
     [{ data: 'Application'}, { data: appName}],
     [{ data: 'Project'}, { data: repoName}],
     [{ data: 'Organization'}, { data: orgName}],
-    [{ data: 'Last commit'}, { data: `<a href="https://github.com/${orgName}/${repoName}/commit/${lastCommit.id}">${lastCommit.id}</a>`}],
-    [{ data: 'Last commit author'}, { data: `@${lastCommit.author.username}` }],
-    [{ data: 'Last commit message'}, { data: lastCommit.message}],
     [{ data: 'Version URL' }, { data: `<a class="external" href=${version_url} target="_blank">${version_url}</a>` }],
   ]
   await summary.addTable(tableData).write();
 };
-
-function getLastCommit(context: Context) {
-  const payload = context.payload;
-  return payload.head_commit as Commit;
-}
 
 interface Commit {
   author: {
