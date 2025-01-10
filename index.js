@@ -27210,7 +27210,7 @@ var createDeploySummary = async ({
 (async () => {
   try {
     const application_uid = (0, import_core2.getInput)("application_uid", { required: true });
-    const github_token = (0, import_core2.getInput)("github_token", { required: false });
+    const github_token = (0, import_core2.getInput)("github_token", { required: false, trimWhitespace: true });
     const github_environment = (0, import_core2.getInput)("github_environment", {
       required: false,
       trimWhitespace: true
@@ -27224,7 +27224,7 @@ var createDeploySummary = async ({
     (0, import_core2.setOutput)("version_url", version_url);
     await Promise.allSettled([
       createJobSummary({ appName, repoName, orgName, version_url, context: import_github2.context }),
-      createDeploySummary({ version_url, github_token, github_environment })
+      github_token.length ? createDeploySummary({ version_url, github_token, github_environment }) : null
     ]);
   } catch (error) {
     console.error(error);
