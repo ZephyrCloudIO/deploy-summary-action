@@ -30,22 +30,26 @@ jobs:
         run: npm ci
       - name: Build App
         env:
-          ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }} # Required Your User Auth Token
+          ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }} # Required - Your User Auth Token
         run: "<build command here>"
       - name: Zephyr deploy summary
         uses: ZephyrCloudIO/deploy-summary-action@v1
         id: zephyr-summary
         with:
-          application_uid: <your_application_uid>
+          application_uid: <your_application_uid> # Required
+          github_token: {{ secrets.GITHUB_TOKEN }} # Optional
+          github_environment: <chosen_environment> # Optional
       - name: Zephyr deploy summary
         run: echo "Deployed to ${{ steps.zephyr.outputs.version_url }}"
 ```
 
 # Inputs
 
-| Name              | Required | Description                                   |
-| ----------------- | -------- | --------------------------------------------- |
-| `application_uid` |  true  | The link where snapshot of build is deployed.   |
+| Name                 | Required | Description                                        |
+| -------------------- | -------- | -------------------------------------------------- |
+| `application_uid`    |   true   | Unique identification for your Zephyr application. |
+| `github_token`    |   false  | Enables GitHub deployment creation.                |
+| `github_environment` |   false  | Specify to which GitHub environment to deploy.     |
 
 # Outputs
 
