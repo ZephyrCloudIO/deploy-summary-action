@@ -4,6 +4,9 @@ inputs:
   application_uid:
     description: 'Application UID'
     required: true
+  github_token:
+    description: 'Enables GitHub Deployments'
+    required: false
 outputs:
   version_url:
     description: 'URL of deployed version'
