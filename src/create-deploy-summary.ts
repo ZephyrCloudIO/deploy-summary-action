@@ -18,7 +18,7 @@ export const createDeploySummary = async ({
     owner: context.repo.owner,
     repo: context.repo.repo,
     description: 'Zephyr Cloud Deployment',
-    environment: github_environment ?? 'Zephyr Cloud',
+    environment: github_environment?.length ? github_environment : 'Zephyr Cloud',
   };
   const deployment = await octokit.rest.repos.createDeployment({
     ...commonParams,

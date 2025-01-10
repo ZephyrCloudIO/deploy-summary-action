@@ -27187,7 +27187,7 @@ var createDeploySummary = async ({
     owner: import_github.context.repo.owner,
     repo: import_github.context.repo.repo,
     description: "Zephyr Cloud Deployment",
-    environment: github_environment ?? "Zephyr Cloud"
+    environment: github_environment?.length ? github_environment : "Zephyr Cloud"
   };
   const deployment = await octokit.rest.repos.createDeployment({
     ...commonParams,
@@ -27211,7 +27211,10 @@ var createDeploySummary = async ({
   try {
     const application_uid = (0, import_core2.getInput)("application_uid", { required: true });
     const github_token = (0, import_core2.getInput)("github_token", { required: false });
-    const github_environment = (0, import_core2.getInput)("github_environment", { required: false });
+    const github_environment = (0, import_core2.getInput)("github_environment", {
+      required: false,
+      trimWhitespace: true
+    });
     const [appName, repoName, orgName] = application_uid.split(".");
     const version_url = await getDeployVersionUrl(application_uid);
     if (!version_url) {

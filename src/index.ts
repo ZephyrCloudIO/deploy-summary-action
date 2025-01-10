@@ -8,7 +8,10 @@ import { createDeploySummary } from './create-deploy-summary';
   try {
     const application_uid = getInput('application_uid', { required: true });
     const github_token = getInput('github_token', { required: false });
-    const github_environment = getInput('github_environment', { required: false });
+    const github_environment = getInput('github_environment', {
+      required: false,
+      trimWhitespace: true,
+    });
     const [appName, repoName, orgName] = application_uid.split('.');
     const version_url = await getDeployVersionUrl(application_uid);
 
