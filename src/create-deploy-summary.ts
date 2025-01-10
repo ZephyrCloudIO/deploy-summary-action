@@ -2,23 +2,23 @@ import { context, getOctokit } from '@actions/github';
 import { env } from 'process';
 
 interface CreateDeploySummaryProps {
-  gitHubToken: string;
   version_url: string;
-  appName: string;
+  github_token: string;
+  github_environment: string | undefined;
 }
 
 export const createDeploySummary = async ({
-  appName,
-  gitHubToken,
   version_url,
+  github_token,
+  github_environment,
 }: CreateDeploySummaryProps) => {
-  const octokit = getOctokit(gitHubToken);
+  const octokit = getOctokit(github_token);
   const githubBranch = env.GITHUB_HEAD_REF || env.GITHUB_REF_NAME;
   const commonParams = {
     owner: context.repo.owner,
     repo: context.repo.repo,
     description: 'Zephyr Cloud Deployment',
-    environment: appName,
+    environment: github_environment ?? 'Zephyr Cloud',
   };
   const deployment = await octokit.rest.repos.createDeployment({
     ...commonParams,

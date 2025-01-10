@@ -27177,17 +27177,17 @@ var getDeployVersionUrl = async (application_uid) => {
 var import_github = __toESM(require_github());
 var import_process = require("process");
 var createDeploySummary = async ({
-  appName,
-  gitHubToken,
-  version_url
+  version_url,
+  github_token,
+  github_environment
 }) => {
-  const octokit = (0, import_github.getOctokit)(gitHubToken);
+  const octokit = (0, import_github.getOctokit)(github_token);
   const githubBranch = import_process.env.GITHUB_HEAD_REF || import_process.env.GITHUB_REF_NAME;
   const commonParams = {
     owner: import_github.context.repo.owner,
     repo: import_github.context.repo.repo,
     description: "Zephyr Cloud Deployment",
-    environment: appName
+    environment: github_environment ?? "Zephyr Cloud"
   };
   const deployment = await octokit.rest.repos.createDeployment({
     ...commonParams,
@@ -27210,7 +27210,8 @@ var createDeploySummary = async ({
 (async () => {
   try {
     const application_uid = (0, import_core2.getInput)("application_uid", { required: true });
-    const gitHubToken = (0, import_core2.getInput)("github_token", { required: false });
+    const github_token = (0, import_core2.getInput)("github_token", { required: false });
+    const github_environment = (0, import_core2.getInput)("github_environment", { required: false });
     const [appName, repoName, orgName] = application_uid.split(".");
     const version_url = await getDeployVersionUrl(application_uid);
     if (!version_url) {
@@ -27220,7 +27221,7 @@ var createDeploySummary = async ({
     (0, import_core2.setOutput)("version_url", version_url);
     await Promise.allSettled([
       createJobSummary({ appName, repoName, orgName, version_url, context: import_github2.context }),
-      createDeploySummary({ appName, gitHubToken, version_url })
+      createDeploySummary({ version_url, github_token, github_environment })
     ]);
   } catch (error) {
     console.error(error);

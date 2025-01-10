@@ -7,6 +7,9 @@ inputs:
   github_token:
     description: 'Enables GitHub Deployments'
     required: false
+  github_environment:
+    description: 'Github Deployment environment name'
+    required: false
 outputs:
   version_url:
     description: 'URL of deployed version'
