@@ -32,6 +32,7 @@ jobs:
         id: zephyr-summary
         with:
           application_uid: create-mf-app-rspack-host.deploy-summary-action.zephyrcloudio
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Print zephyr deploy summary
         run: echo "Deployed to ${{ steps.zephyr-summary.outputs.version_url }}"
 

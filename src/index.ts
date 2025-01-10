@@ -2,10 +2,16 @@ import { getInput, setOutput, setFailed } from '@actions/core';
 import { context } from '@actions/github';
 import { createJobSummary } from './create-job-summary';
 import { getDeployVersionUrl } from './get-deploy-version-url';
+import { createDeploySummary } from './create-deploy-summary';
 
 (async () => {
   try {
-    const application_uid = getInput('application_uid');
+    const application_uid = getInput('application_uid', { required: true });
+    const github_token = getInput('github_token', { required: false, trimWhitespace: true });
+    const github_environment = getInput('github_environment', {
+      required: false,
+      trimWhitespace: true,
+    });
     const [appName, repoName, orgName] = application_uid.split('.');
     const version_url = await getDeployVersionUrl(application_uid);
 
@@ -16,8 +22,12 @@ import { getDeployVersionUrl } from './get-deploy-version-url';
 
     setOutput('version_url', version_url);
 
-    await createJobSummary({appName, repoName, orgName, version_url, context});
-
+    await Promise.allSettled([
+      createJobSummary({ appName, repoName, orgName, version_url, context }),
+      github_token.length
+        ? createDeploySummary({ version_url, github_token, github_environment })
+        : null,
+    ]);
   } catch (error) {
     console.error(error);
     setFailed(error.message);
