@@ -20,7 +20,7 @@
   "dependencies": {
     "@actions/core": "1.11.1",
     "@actions/github": "6.0.0",
-    "zephyr-edge-contract": "0.0.23"
+    "zephyr-edge-contract": "0.0.31"
   },
   "devDependencies": {
     "@types/node": "22.8.5",
