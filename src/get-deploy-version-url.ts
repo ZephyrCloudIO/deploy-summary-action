@@ -11,7 +11,7 @@ export const getDeployVersionUrl = async (
   application_uid: string,
 ): Promise<string | undefined> => {
   const deployed = await getDeployedApps();
-
+  console.log('--------- deployed: ', deployed)
   return deployed.find(({ app }) => app === application_uid)?.url;
 };
 

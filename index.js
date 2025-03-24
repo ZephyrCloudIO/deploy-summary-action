@@ -24579,6 +24579,7 @@ var import_node_os = require("node:os");
 var import_node_path = require("node:path");
 var getDeployVersionUrl = async (application_uid) => {
   const deployed = await getDeployedApps();
+  console.log("--------- deployed: ", deployed);
   return deployed.find(({ app }) => app === application_uid)?.url;
 };
 var getDeployedApps = async () => {
