@@ -47,7 +47,6 @@ migrations.json
 
 # Local Netlify folder
 .netlify
-package-lock.json
 
 # wrangler
 .wrangler
