@@ -24579,7 +24579,6 @@ var import_node_os = require("node:os");
 var import_node_path = require("node:path");
 var getDeployVersionUrl = async (application_uid) => {
   const deployed = await getDeployedApps();
-  console.log("--------- deployed: ", deployed);
   return deployed.find(({ app }) => app === application_uid)?.url;
 };
 var getDeployedApps = async () => {
@@ -24587,7 +24586,7 @@ var getDeployedApps = async () => {
   const deployed = [];
   await import_node_persist.default.forEach(async ({ key, value }) => {
     if (!key.startsWith("ze-app-deploy-result:")) return;
-    deployed.push({ app: key.split(":")[1].split(".")[0], url: value.urls[0] });
+    deployed.push({ app: key.split(":")[1], url: value.urls[0] });
   });
   deployed.sort((a, b) => a.app > b.app ? 1 : -1);
   return deployed;
