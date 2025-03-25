@@ -10,22 +10,22 @@
     "email": "jherr@pobox.com"
   },
   "devDependencies": {
-    "@rspack/cli": "^1.0.14",
-    "@rspack/core": "^1.0.14",
-    "@rspack/plugin-react-refresh": "^1.0.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "autoprefixer": "^10.4.20",
+    "@rspack/cli": "^1.2.8",
+    "@rspack/core": "^1.2.8",
+    "@rspack/plugin-react-refresh": "^1.0.1",
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.5",
+    "autoprefixer": "^10.4.21",
     "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
-    "postcss": "8.4.44",
-    "postcss-loader": "8.1.1",
-    "react-refresh": "0.14.2",
+    "postcss": "^8.5.3",
+    "postcss-loader": "^8.1.1",
+    "react-refresh": "^0.16.0",
     "style-loader": "^4.0.0"
   },
   "dependencies": {
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "zephyr-webpack-plugin": "^0.0.25"
+    "zephyr-webpack-plugin": "^0.0.38"
   }
 }
