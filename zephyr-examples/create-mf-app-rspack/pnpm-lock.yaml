@@ -14,9 +14,9 @@ importers:
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
-      zephyr-webpack-plugin:
+      zephyr-rspack-plugin:
         specifier: ^0.0.54
-        version: 0.0.54
+        version: 0.0.54(webpack@5.98.0)
     devDependencies:
       '@rspack/cli':
         specifier: ^1.3.15
@@ -1773,8 +1773,8 @@ packages:
   zephyr-edge-contract@0.0.54:
     resolution: {integrity: sha512-HaNEySkJCsQ9jY5FYa656sEpBPT483rlvQJZrgNe7qZv7C0Kmeo4ipBl/CiMA69XCzpRRk8+O484aYI3DkV7ag==}
 
-  zephyr-webpack-plugin@0.0.54:
-    resolution: {integrity: sha512-+fD+EI96PZM+GfyKTwfCsdNLYm1N5NntTOLAIpuL0RrJ0j+euUTHpAZ9xxw18MMvMkJ01Eg79Rrf9rILR7Y/4A==}
+  zephyr-rspack-plugin@0.0.54:
+    resolution: {integrity: sha512-fHVO/se5PDSf5VhrDS9bjVj8yVL95zvUSmbFXECp+Du1f1DSNacVgSwhLnuz9dgbFq62/o1qXFGwDhocnNBU7w==}
 
   zephyr-xpack-internal@0.0.54:
     resolution: {integrity: sha512-vSvBPPuH9PcrJc/gZYU7e27b9F2hEhbgXeLYqmOVU0ptM50+Bff+v2xt62cK/QErzODAHGExfSoViTbG+97N6g==}
@@ -3573,23 +3573,21 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  zephyr-webpack-plugin@0.0.54:
+  zephyr-rspack-plugin@0.0.54(webpack@5.98.0):
     dependencies:
       '@module-federation/automatic-vendor-federation': 1.2.1(webpack@5.98.0)
+      '@rspack/core': 1.3.15
       is-ci: 4.1.0
       tslib: 2.8.1
-      webpack: 5.98.0
       zephyr-agent: 0.0.54
       zephyr-xpack-internal: 0.0.54(webpack@5.98.0)
     transitivePeerDependencies:
-      - '@swc/core'
+      - '@swc/helpers'
       - bufferutil
       - encoding
-      - esbuild
       - supports-color
-      - uglify-js
       - utf-8-validate
-      - webpack-cli
+      - webpack
 
   zephyr-xpack-internal@0.0.54(webpack@5.98.0):
     dependencies:
