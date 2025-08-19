@@ -29,5 +29,10 @@
     "husky": "^9.1.7",
     "prettier": "^3.5.3",
     "typescript": "5.8.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "form-data": ">=4.0.4"
+    }
   }
 }
